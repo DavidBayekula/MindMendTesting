@@ -37,11 +37,19 @@
     
   <div class="card">
     <h2 style="margin-top:0">Search for University Counselors</h2>
-    <div class="searchbar">
-      <input id="counselorName" class="input" placeholder="Counselor Name (e.g., Cox)" />
-      <input id="counselorUniv" class="input" placeholder="University (e.g., North Carolina Central University)" />
-      <button id="searchBtn" class="btn" type="button">SEARCH</button>
-    </div>
+      <div class="searchbar" style="display: grid; grid-template-columns: 1fr 1fr 1fr auto; gap: 10px;">
+    <input id="counselorName" class="input" placeholder="Counselor Name (e.g., Cox)" />
+    <input id="counselorUniv" class="input" placeholder="University (e.g., Stanford)" />
+    <select id="counselorState" class="input">
+      <option value="">All States</option>
+      <option value="New York">New York</option>
+      <option value="Texas">Texas</option>
+      <option value="Massachusetts">Massachusetts</option>
+      <option value="California">California</option>
+      <option value="Virginia">Virginia</option>
+    </select>
+  <button id="searchBtn" class="btn" type="button">SEARCH</button>
+</div>
     <p id="resultsFor" class="muted" style="margin-top:12px;display:none">Showing results for …</p>
   </div>
   <div id="counselorResults" aria-live="polite"></div>
