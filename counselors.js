@@ -58,8 +58,8 @@ async function wireCounselorSearch(){
     const start = (currentPage - 1) * pageSize;
     const end = Math.min(start + pageSize, filteredCounselors.length);
     const pageList = filteredCounselors.slice(start, end);
-
-    pageList.forEach(c => {
+   
+    pageList.forEach(c=>{
       const card = document.createElement('div');
       card.className = 'c-card';
       card.innerHTML = `
@@ -69,8 +69,8 @@ async function wireCounselorSearch(){
           <div class="muted">${c.university}</div>
           <p class="muted" style="margin:8px 0 0">${c.summary}</p>
           <div style="display:flex;gap:16px;margin-top:10px;align-items:center;color:#4b4b4b;flex-wrap:wrap">
-            ${c.email ? `<a href="mailto:${c.email}">Email ${c.email}</a>` : ''}
-            ${c.phone ? `<a href="tel:${c.phone.replace(/[^0-9]/g,'')}">Phone ${c.phone}</a>` : ''}
+            <a href="mailto:${c.email}">📧 ${c.email}</a>
+            <a href="tel:${c.phone.replace(/[^0-9]/g,'')}">📞 ${c.phone}</a>
           </div>
         </div>
         <a class="chip" href="${c.linkUrl}" target="_blank" rel="noopener">${c.linkText}</a>`;
