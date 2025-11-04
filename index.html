@@ -48,7 +48,7 @@
   <!-- Modern phones/laptops (WebP = 30 % smaller) -->
     <source srcset="https://cdn.jsdelivr.net/gh/DavidBayekula/MindMendTesting@main/girl_reading.webp" type="image/webp">
   <!-- Everyone else -->
-    <img src="https://cdn.jsdelivr.net/gh/DavidBayekula/MindMendTesting@main/girl_reading-optim.jpg"
+    <img src="https://cdn.jsdelivr.net/gh/DavidBayekula/MindMendTesting@main/girl_reading-optim.png"
        alt="Student journaling"
        width="480" height="480"
        loading="lazy"
@@ -116,7 +116,7 @@
   document.querySelectorAll('img').forEach(img => {
     img.loading = 'lazy';
     if (!img.src.includes('optim')) {
-      img.src = img.src.replace('.jpg', '-optim.jpg');
+      img.src = img.src.replace('.png', '-optim.png');
     }
   });
 </script>
