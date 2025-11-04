@@ -63,7 +63,7 @@ async function wireCounselorSearch(){
       const card = document.createElement('div');
       card.className = 'c-card';
       card.innerHTML = `
-        <img class="c-avatar" src="https://i.imgur.com/7vJ5K8t.png" alt="Counselor profile" onerror="this.src='data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iOTAiIGhlaWdodD0iOTAiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyI+PHJlY3Qgd2lkdGg9IjkwIiBoZWlnaHQ9IjkwIiBmaWxsPSIjZGZlNWUxIiByeD0iNDUiLz48dGV4dCB4PSI0NSIgeT0iNTUiIGZvbnQtc2l6ZT0iNDAiIHRleHQtYW5jaG9yPSJtaWRkbGUiIGZpbGw9IiM5YWFhYWEiPuJ1wpc8L3RleHQ+PC9zdmc+';">
+        <img class="c-avatar" src="https://uxwing.com/wp-content/themes/uxwing/download/peoples-avatars/avatar-icon.png" alt="Counselor profile" onerror="this.onerror=null; this.src='data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iOTAiIGhlaWdodD0iOTAiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyI+PHJlY3Qgd2lkdGg9IjkwIiBoZWlnaHQ9IjkwIiBmaWxsPSIjZGZlNWUxIiByeD0iNDUiLz48dGV4dCB4PSI0NSIgeT0iNTUiIGZvbnQtc2l6ZT0iNDAiIHRleHQtYW5jaG9yPSJtaWRkbGUiIGZpbGw9IiM5YWFhYWEiPuJ1wpc8L3RleHQ+PC9zdmc+';">
         <div>
           <div style="font-weight:700;font-size:20px">${c.name}</div>
           <div class="muted">${c.university}</div>
