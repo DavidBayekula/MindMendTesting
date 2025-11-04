@@ -32,7 +32,12 @@ async function wireCounselorSearch(){
     stateEl.appendChild(option);
   });
 
-  function render(list, qName, qState, qUniv){
+  let filteredCounselors = COUNSELORS;
+  let currentPage = 1;
+  const pageSize = 5;
+
+  function renderPage(qName, qState, qUniv) {
+    out.innerHTML = '';
     if(label){
       const has = (qName || qState || qUniv);
       label.style.display = has ? 'block' : 'none';
@@ -44,12 +49,15 @@ async function wireCounselorSearch(){
         label.textContent = "Showing results for " + parts.join(" • ");
       }
     }
-    out.innerHTML = '';
-    if(!list.length){
+    if(!filteredCounselors.length){
       out.innerHTML = `<p class="muted" style="margin-top:12px">No counselors matched your search.</p>`;
       return;
     }
-    list.forEach(c=>{
+    const totalPages = Math.ceil(filteredCounselors.length / pageSize);
+    const start = (currentPage - 1) * pageSize;
+    const end = start + pageSize;
+    const pageList = filteredCounselors.slice(start, end);
+    pageList.forEach(c=>{
       const card = document.createElement('div');
       card.className = 'c-card';
       card.innerHTML = `
@@ -66,6 +74,24 @@ async function wireCounselorSearch(){
         <a class="chip" href="${c.linkUrl}" target="_blank" rel="noopener">${c.linkText}</a>`;
       out.appendChild(card);
     });
+    if(totalPages > 1){
+      const pagination = document.createElement('div');
+      pagination.className = 'pagination';
+      const prev = document.createElement('button');
+      prev.textContent = 'Previous';
+      prev.disabled = (currentPage === 1);
+      prev.addEventListener('click', () => { currentPage--; renderPage(qName, qState, qUniv); });
+      pagination.appendChild(prev);
+      const pageInfo = document.createElement('span');
+      pageInfo.textContent = `Page ${currentPage} of ${totalPages}`;
+      pagination.appendChild(pageInfo);
+      const next = document.createElement('button');
+      next.textContent = 'Next';
+      next.disabled = (currentPage === totalPages);
+      next.addEventListener('click', () => { currentPage++; renderPage(qName, qState, qUniv); });
+      pagination.appendChild(next);
+      out.appendChild(pagination);
+    }
   }
 
   function filter(){
@@ -73,7 +99,7 @@ async function wireCounselorSearch(){
     const qState = (stateEl.value || '').trim();
     const qUniv = (univEl.value || '').trim();
 
-    const results = COUNSELORS.filter(c => {
+    filteredCounselors = COUNSELORS.filter(c => {
       const nameOk = !qName || c.name.toLowerCase().includes(qName);
       let univOk = true;
       if (qUniv) {
@@ -83,7 +109,8 @@ async function wireCounselorSearch(){
       }
       return nameOk && univOk;
     });
-    render(results, nameEl.value.trim(), qState, qUniv);
+    currentPage = 1;
+    renderPage(nameEl.value.trim(), qState, qUniv);
   }
 
   // Event listener for state change to populate universities
@@ -101,7 +128,7 @@ async function wireCounselorSearch(){
     filter();
   });
 
-  render(COUNSELORS, '', '', '');
+  renderPage('', '', '');
   btn.addEventListener('click', filter);
   nameEl.addEventListener('keydown', e => { if (e.key === 'Enter') filter(); });
   nameEl.addEventListener('input', () => { if (!nameEl.value && !stateEl.value && !univEl.value) filter(); });

@@ -1,3 +1,4 @@
+
 :root{
   --brown:#3B2C28; --beige:#F4F1EC; --sage:#7C8C84; --taupe:#A1887F;
   --charcoal:#2E2E2E; --white:#FFFFFF; --radius:18px;
@@ -65,6 +66,29 @@ nav a:hover,nav a.active{background:#fff;color:var(--brown)}
 .login h3{letter-spacing:8px;color:#fff;margin:0 0 16px;font-weight:600}
 .login .input{width:100%}
 .login .btn{width:100%;margin-top:10px;background:#3f423f}
+
+.pagination {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 10px;
+  margin-top: 20px;
+}
+.pagination button {
+  background: var(--brown);
+  color: #fff;
+  border: none;
+  padding: 8px 12px;
+  border-radius: 8px;
+  cursor: pointer;
+}
+.pagination button:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+.pagination span {
+  color: #4b4b4b;
+}
 
 footer{padding:40px 0;color:#7a766e}
 
