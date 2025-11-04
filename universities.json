@@ -1,4 +1,4 @@
-<DOCUMENT filename="universities.json">
+
 {
   "California": [
     "Stanford University",
@@ -30,4 +30,3 @@
     "Virginia Tech"
   ]
 }
-</DOCUMENT>

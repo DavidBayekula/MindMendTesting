@@ -1,4 +1,4 @@
-// counselors.js
+
 let COUNSELORS = [];
 
 // Fetch JSON helper
@@ -7,116 +7,109 @@ async function fetchJSON(url, fallback) {
     const res = await fetch(url, { cache: "no-store" });
     if (!res.ok) throw new Error("Bad status");
     return await res.json();
-  } catch (e) {
-    console.warn("Failed to load counselors:", e);
+  } catch {
     return fallback;
   }
 }
 
-// Load counselors from JSON
-async function loadCounselors() {
-  const data = await fetchJSON('counselors.json', []);
-  COUNSELORS = Array.isArray(data) ? data : [];
-  return COUNSELORS;
-}
-
-function wireCounselorSearch() {
+async function wireCounselorSearch(){
   const nameEl = document.getElementById('counselorName');
-  const univEl = document.getElementById('counselorUniv');
   const stateEl = document.getElementById('counselorState');
+  const univEl = document.getElementById('counselorUniv');
   const btn = document.getElementById('searchBtn');
   const out = document.getElementById('counselorResults');
   const label = document.getElementById('resultsFor');
+  if(!nameEl || !stateEl || !univEl || !btn || !out) return;
 
-  if (!nameEl || !univEl || !stateEl || !btn || !out) {
-    console.error("Counselor search elements not found");
-    return;
-  }
+  COUNSELORS = await fetchJSON('counselors.json', []);
+  const universities = await fetchJSON('universities.json', {});
 
-  function render(list, qName, qUniv, qState) {
-    // Update label
-    if (label) {
-      const parts = [];
-      if (qName) parts.push(`name: “${qName}”`);
-      if (qUniv) parts.push(`university: “${qUniv}”`);
-      if (qState) parts.push(`state: ${qState}`);
-      label.style.display = parts.length ? 'block' : 'none';
-      if (parts.length) {
+  // Populate state dropdown
+  Object.keys(universities).sort().forEach(state => {
+    const option = document.createElement('option');
+    option.value = state;
+    option.textContent = state;
+    stateEl.appendChild(option);
+  });
+
+  function render(list, qName, qState, qUniv){
+    if(label){
+      const has = (qName || qState || qUniv);
+      label.style.display = has ? 'block' : 'none';
+      if(has){
+        const parts = [];
+        if(qName) parts.push(`name: “${qName}”`);
+        if(qState) parts.push(`state: “${qState}”`);
+        if(qUniv) parts.push(`university: “${qUniv}”`);
         label.textContent = "Showing results for " + parts.join(" • ");
       }
     }
-
     out.innerHTML = '';
-    if (!list.length) {
+    if(!list.length){
       out.innerHTML = `<p class="muted" style="margin-top:12px">No counselors matched your search.</p>`;
       return;
     }
-
-    list.forEach(c => {
+    list.forEach(c=>{
       const card = document.createElement('div');
       card.className = 'c-card';
       card.innerHTML = `
         <div class="c-avatar" aria-hidden="true"></div>
         <div>
-          <div style="font-weight:700;font-size:20px">${escapeHTML(c.name)}</div>
-          <div class="muted">${escapeHTML(c.university)} • ${escapeHTML(c.state)}</div>
-          <p class="muted" style="margin:8px 0 0">${escapeHTML(c.summary)}</p>
+          <div style="font-weight:700;font-size:20px">${c.name}</div>
+          <div class="muted">${c.university}</div>
+          <p class="muted" style="margin:8px 0 0">${c.summary}</p>
           <div style="display:flex;gap:16px;margin-top:10px;align-items:center;color:#4b4b4b;flex-wrap:wrap">
-            <a href="mailto:${escapeHTML(c.email)}">Email ${escapeHTML(c.email)}</a>
-            <a href="tel:${c.phone.replace(/[^0-9]/g,'')}">Call ${escapeHTML(c.phone)}</a>
+            <a href="mailto:${c.email}">📧 ${c.email}</a>
+            <a href="tel:${c.phone.replace(/[^0-9]/g,'')}">📞 ${c.phone}</a>
           </div>
         </div>
-        <a class="chip" href="${escapeHTML(c.linkUrl)}" target="_blank" rel="noopener">${escapeHTML(c.linkText)}</a>`;
+        <a class="chip" href="${c.linkUrl}" target="_blank" rel="noopener">${c.linkText}</a>`;
       out.appendChild(card);
     });
   }
 
-  function escapeHTML(str) {
-    const div = document.createElement('div');
-    div.textContent = str;
-    return div.innerHTML;
-  }
-
-  function filter() {
+  function filter(){
     const qName = (nameEl.value || '').trim().toLowerCase();
-    const qUniv = (univEl.value || '').trim().toLowerCase();
-    const qState = stateEl.value;
+    const qState = (stateEl.value || '').trim();
+    const qUniv = (univEl.value || '').trim();
 
     const results = COUNSELORS.filter(c => {
       const nameOk = !qName || c.name.toLowerCase().includes(qName);
-      const univOk = !qUniv || c.university.toLowerCase().includes(qUniv);
-      const stateOk = !qState || c.state === qState;
-      return nameOk && univOk && stateOk;
+      let univOk = true;
+      if (qUniv) {
+        univOk = c.university.toLowerCase() === qUniv.toLowerCase();
+      } else if (qState) {
+        univOk = universities[qState].some(u => u.toLowerCase() === c.university.toLowerCase());
+      }
+      return nameOk && univOk;
     });
-
-    render(results, nameEl.value.trim(), univEl.value.trim(), qState || '');
+    render(results, nameEl.value.trim(), qState, qUniv);
   }
 
-  // Initial load
-  async function init() {
-    await loadCounselors();
-    render(COUNSELORS, '', '', '');
-    filter(); // Apply default (all)
-  }
-
-  // Event Listeners
-  btn.addEventListener('click', filter);
-  [nameEl, univEl, stateEl].forEach(el => {
-    el.addEventListener('keydown', e => { if (e.key === 'Enter') filter(); });
-    el.addEventListener('input', () => {
-      if (!nameEl.value && !univEl.value && !stateEl.value) filter();
-    });
+  // Event listener for state change to populate universities
+  stateEl.addEventListener('change', () => {
+    const selectedState = stateEl.value;
+    univEl.innerHTML = '<option value="">Any University</option>';
+    if (selectedState && universities[selectedState]) {
+      universities[selectedState].forEach(univ => {
+        const option = document.createElement('option');
+        option.value = univ;
+        option.textContent = univ;
+        univEl.appendChild(option);
+      });
+    }
+    filter();
   });
-  stateEl.addEventListener('change', filter);
 
-  // Start
-  init();
+  render(COUNSELORS, '', '', '');
+  btn.addEventListener('click', filter);
+  nameEl.addEventListener('keydown', e => { if (e.key === 'Enter') filter(); });
+  nameEl.addEventListener('input', () => { if (!nameEl.value && !stateEl.value && !univEl.value) filter(); });
+  univEl.addEventListener('change', filter);
 }
 
-// Only wire on counselor.html
+// Only wire on the counselors page
 document.addEventListener('DOMContentLoaded', () => {
   const path = (location.pathname.split('/').pop() || 'index.html').toLowerCase();
-  if (path === 'counselor.html') {
-    wireCounselorSearch();
-  }
+  if (path === 'counselor.html') wireCounselorSearch();
 });

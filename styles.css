@@ -1,4 +1,3 @@
-
 :root{
   --brown:#3B2C28; --beige:#F4F1EC; --sage:#7C8C84; --taupe:#A1887F;
   --charcoal:#2E2E2E; --white:#FFFFFF; --radius:18px;
@@ -49,7 +48,7 @@ nav a:hover,nav a.active{background:#fff;color:var(--brown)}
 .toolbar button{border:1px solid #ddd;background:#fafafa;border-radius:8px;padding:6px 10px;cursor:pointer}
 .editor .input,.editor textarea{width:100%;border:1.5px solid #dcd6cf;border-radius:10px;padding:12px 14px;background:#fff;margin:8px 0}
 
-.searchbar{display:grid;grid-template-columns:1fr 1fr auto;gap:10px}
+.searchbar{display:grid;grid-template-columns:1fr 1fr 1fr auto;gap:10px}
 .input{border:1.5px solid #dcd6cf;border-radius:10px;padding:12px 14px;background:#fff}
 .c-card{display:grid;grid-template-columns:90px 1fr auto;gap:16px;background:#fff;border-radius:16px;padding:16px;margin-top:12px;box-shadow:var(--shadow)}
 .c-avatar{width:90px;height:90px;border-radius:50%;background:#dfe5e1}
@@ -75,5 +74,7 @@ footer{padding:40px 0;color:#7a766e}
   .c-card{grid-template-columns:70px 1fr}
   .chip{justify-self:start}
   .contact-grid{grid-template-columns:1fr}
+  .searchbar{grid-template-columns:1fr auto;gap:10px 10px}
+  .searchbar > *:nth-child(2), .searchbar > *:nth-child(3){grid-column:1 / -1}
   header{top:0}
 }
