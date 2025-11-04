@@ -44,11 +44,16 @@
         <button class="cta-big">Start healing today</button>
       </div>
 
-      <div class="hero-illo">
-        <img src="https://cdn.jsdelivr.net/gh/DavidBayekula/MindMendTesting@main/reading_journal.png" 
-     alt="Student journaling" 
-     width="480">
-      </div>
+    <picture>
+  <!-- Modern phones/laptops (WebP = 30 % smaller) -->
+    <source srcset="https://cdn.jsdelivr.net/gh/DavidBayekula/MindMendTesting@main/girl_reading.webp" type="image/webp">
+  <!-- Everyone else -->
+    <img src="https://cdn.jsdelivr.net/gh/DavidBayekula/MindMendTesting@main/girl_reading-optim.jpg"
+       alt="Student journaling"
+       width="480" height="480"
+       loading="lazy"
+       class="hero-illo-img">
+    </picture>
 
       <div class="feature-cards">
         <a href="ai.html" class="fcard">
@@ -105,5 +110,15 @@
       document.querySelector('.feature-cards').scrollIntoView({ behavior: 'smooth' });
     });
   </script>
+
+  <script>
+  // Auto-convert every <img> to lazy + optimized
+  document.querySelectorAll('img').forEach(img => {
+    img.loading = 'lazy';
+    if (!img.src.includes('optim')) {
+      img.src = img.src.replace('.jpg', '-optim.jpg');
+    }
+  });
+</script>
 </body>
 </html>
