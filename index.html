@@ -64,9 +64,10 @@
       </div>
     </div>
 
-    <div class="container banner-quote">
-      <p>“Your mind matters. Let’s heal together.”</p>
-    </div>
+ <div class="container banner-quote">
+  <p id="daily-quote">…</p>
+  <p id="daily-author" style="font-size:16px; margin-top:8px; opacity:.85;"></p>
+</div>
   </section>
 
   <footer class="container">
@@ -79,6 +80,20 @@
     window.SUPABASE_URL = "https://pgpxmtkzgifspotnjrpi.supabase.co";
     window.SUPABASE_ANON_KEY = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InBncHhtdGt6Z2lmc3BvdG5qcnBpIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NTg4Mzc3MjQsImV4cCI6MjA3NDQxMzcyNH0.me3WRQM5CdGq8bAIRNMsk07lUqxkLUbeIRAgvrc_sYs";
     window.supabase = createClient(window.SUPABASE_URL, window.SUPABASE_ANON_KEY);
+
+  // Load quotes.json
+  const response = await fetch('quotes.json');
+  const quotes = await response.json();
+
+  // Daily deterministic picker
+  const start = new Date('2025-01-01').setHours(0,0,0,0);
+  const today = new Date().setHours(0,0,0,0);
+  const dayIndex = Math.floor((today - start) / 86400000) % quotes.length;
+  const { quote, author } = quotes[dayIndex];
+
+  // Inject
+  document.getElementById('daily-quote').textContent = `“${quote}”`;
+  document.getElementById('daily-author').textContent = `— ${author}`;
   </script>
   <script src="core.js"></script>
   <script>
