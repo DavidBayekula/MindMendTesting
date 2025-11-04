@@ -173,3 +173,56 @@ nav a:hover,nav a.active{background:#fff;color:var(--brown)}
 html {
   scroll-behavior: smooth;
 }
+
+/* ===== Home Redesign ===== */
+.home-hero{
+  display:flex; flex-wrap:wrap; align-items:center; justify-content:space-between;
+  background:var(--beige); border-radius:var(--radius); box-shadow:var(--shadow-soft);
+  padding:60px 40px; gap:40px; margin-top:40px;
+}
+.hero-left{ flex:1; min-width:280px }
+.hero-title{
+  font-family:"Playfair Display",serif; font-weight:700; font-size:42px; line-height:1.1;
+  color:var(--brown); margin:0 0 12px;
+}
+.hero-text{ font-size:18px; color:#4d4d4d; margin:0 0 24px }
+.btn-primary{
+  display:inline-block; background:var(--sage); color:#fff; text-decoration:none;
+  padding:12px 22px; border-radius:12px; font-weight:600; transition:.2s;
+  box-shadow:var(--shadow-soft);
+}
+.btn-primary:hover{ filter:brightness(.95) }
+
+.hero-right{ flex:1; display:flex; justify-content:center }
+.hero-illustration{ width:min(420px,100%); height:auto }
+
+.feature-section{
+  display:flex; flex-wrap:wrap; justify-content:space-between; gap:18px; margin-top:48px;
+}
+.feature-card{
+  flex:1 1 260px; background:#fff; border-radius:var(--radius); box-shadow:var(--shadow);
+  padding:22px; text-decoration:none; color:inherit; transition:transform .15s, box-shadow .15s;
+}
+.feature-card:hover{ transform:translateY(-4px); box-shadow:0 12px 28px rgba(0,0,0,.12) }
+.feature-card h3{
+  font-family:"Playfair Display",serif; font-size:20px; color:var(--brown); margin:10px 0 6px;
+}
+.feature-card p{ margin:0; color:#5a5a5a }
+.feature-icon{
+  width:44px; height:44px; border-radius:12px; background:#EFF3EF; color:#6B776E;
+  display:grid; place-items:center; margin-bottom:12px;
+}
+.feature-icon svg{ width:26px; height:26px }
+
+.quote{
+  text-align:center; margin:56px auto 20px; font-family:"Playfair Display",serif;
+  font-style:italic; color:var(--charcoal);
+}
+
+/* Responsive tweaks */
+@media (max-width: 720px){
+  .hero-title{ font-size:34px }
+  .home-hero{ padding:36px 24px }
+  .feature-section{ gap:14px }
+}
+
