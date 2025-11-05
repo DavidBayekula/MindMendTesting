@@ -114,7 +114,7 @@
   // Auto-convert every <img> to lazy + optimized
   document.querySelectorAll('img').forEach(img => {
     img.loading = 'lazy';
-    if (!img.src.includes('optim')) {
+    if (!img.src.includes('boptim')) {
       img.src = img.src.replace('.jpg', '-optim.jpg');
     }
   });
