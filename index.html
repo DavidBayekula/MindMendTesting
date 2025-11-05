@@ -44,16 +44,10 @@
         <button class="cta-big">Start healing today</button>
       </div>
 
-    <picture>
-  <!-- Modern phones/laptops (WebP = 30 % smaller) -->
-    <source srcset="https://cdn.jsdelivr.net/gh/DavidBayekula/MindMendTesting@main/girl_reading.webp" type="image/webp">
-  <!-- Everyone else -->
     <img src="https://cdn.jsdelivr.net/gh/DavidBayekula/MindMendTesting@main/girl_reading-optim.jpg"
        alt="Student journaling"
        width="480" height="480"
-       loading="lazy"
-       class="hero-illo-img">
-    </picture>
+       class="hero-illo-img"> 
 
       <div class="feature-cards">
         <a href="ai.html" class="fcard">
@@ -111,14 +105,5 @@
     });
   </script>
 
-  <script>
-  // Auto-convert every <img> to lazy + optimized
-  document.querySelectorAll('img').forEach(img => {
-    img.loading = 'lazy';
-    if (!img.src.includes('optim')) {
-      img.src = img.src.replace('.jpg', '-optim.jpg');
-    }
-  });
-</script>
 </body>
 </html>
