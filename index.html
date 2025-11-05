@@ -51,6 +51,7 @@
     <img src="https://cdn.jsdelivr.net/gh/DavidBayekula/MindMendTesting@main/girl_reading-optim.jpg"
        alt="Student journaling"
        width="480" height="480"
+       loading="lazy"
        class="hero-illo-img">
     </picture>
 
@@ -114,7 +115,7 @@
   // Auto-convert every <img> to lazy + optimized
   document.querySelectorAll('img').forEach(img => {
     img.loading = 'lazy';
-    if (!img.src.includes('boptim')) {
+    if (!img.src.includes('optim')) {
       img.src = img.src.replace('.jpg', '-optim.jpg');
     }
   });
